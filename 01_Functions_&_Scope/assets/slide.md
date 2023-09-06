@@ -156,8 +156,8 @@ Function | Parameters | Behavior
 
 Resource | Location | Description
 ---------|----------|---------
- Starter Code | [GitHub Repo](https://github.com/learn-co-students/SENG-LIVE-101022-Phase-1-JS) | separate folder for each day's lecture contains the code and any related assets
- Recordings | [Google Sheet](https://docs.google.com/spreadsheets/d/139yeG9joHfaP8hT44z2iSLMv5ScLSc86ZKZ51csIfHo/edit#gid=0) | Links to the starter & solution code for each days video along with the video link and a notetaking doc you can use for practice 
+ Starter Code | [GitHub Repo](https://github.com/gnappo1/SENG-LIVE-091123-Phase-1-JS) | separate folder for each day's lecture contains the code and any related assets
+ Recordings | [Google Sheet](https://docs.google.com/spreadsheets/d/1t9KuB4DPomAytCdjIU0vjeBrW5olDA_nK5Jxkd4phrA/edit#gid=651275681) | Links to the starter & solution code for each days video along with the video link and a notetaking doc you can use for practice 
 
 </div>
 
