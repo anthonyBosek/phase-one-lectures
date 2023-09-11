@@ -1,4 +1,4 @@
-"use strict" // use to enforce a stricter set of rules and best-practices
+// "use strict" // use to enforce a stricter set of rules and best-practices
 
 // JS Fundamentals Part 1
 
