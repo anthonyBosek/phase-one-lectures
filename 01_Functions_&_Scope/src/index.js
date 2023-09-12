@@ -38,7 +38,7 @@ const inventory = [
   },
   {
     id: 5,
-    title: 'You Don’t Know JS',
+    title: 'You Don\’t Know JS',
     author: 'Kyle Simpson',
     price: 6.00,
     reviews: [{userID: 76, content:'You can find this for free online, no need to pay for it!'}],
@@ -67,36 +67,42 @@ const inventory = [
 
 // ✅ Function ideas:
 /*
-- helloWorld
-- formatPrice(price)
-- blurb(book)
+create a formatPrice(price) function that accepts a price (number) as an argument 
+and returns the price formatted as a string. formatPrice(10) => '$10.00'
 */
 
 // Start here!
 
-
-
-
-// 💡 Arrow functions vs regular functions
+//! 💡 Arrow functions vs regular functions
 
 // ✅ create an arrow function version of the formatPrice function
-
-
 
 // ✅ create a blurb() function that accepts a book as an argument and logs a message in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
+//! 💡 Scope
 
-
-// 💡 Difference between Block scope, Function scope, and Global scope
-
-// ✅ create a variable `highestPricedBook`
-
-
-
-// ✅ create a function `findHighestPricedBook` that finds that book and returns it
-
-
+function scopey() {
+    //! Define four local/functional variables (available anywhere within the function FROM THIS LINE UNDER ⚠️)
+    var a = "first Value";
+    let b = "first Value";
+    const c = "first Value";
+    d = "first Value"; // Implicit Global
+  
+    if (true) {
+    //! Define four block-scoped variables (only available within the block)
+      var a = "second Value";
+      let b = "second Value";
+      const c = "second Value";
+      d = "second Value";
+    }
+    
+    // what will each statement log to the console?
+    console.log("a (var) is,", a);
+    console.log("b (let) is,", b);
+    console.log("c (const) is,", c);
+    console.log("d (evil) is,", d);
+}
 
 // After Break
 
@@ -104,20 +110,12 @@ const inventory = [
 // and logs a message explaining the name of the function, the argument passed and 
 // the return value 
 
-// 💡 Practice using callbacks for iteration
+//! 💡 Practice using callbacks for iteration
 
-
-
-// ✅ Create an array of the prices of all of the books
-
-
-
-// ✅ Create an array of simplified book objects
-
-
+// ✅ Print out each book name in our inventory
 
 // ✅ Create an array of strings from the inventory in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
-
-// 💡 When do I use forEach vs map?
+// ✅ Find all the books with price over $25.00 
+//! 💡 When do I use forEach vs map?
