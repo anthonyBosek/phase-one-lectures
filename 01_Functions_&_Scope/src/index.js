@@ -139,13 +139,33 @@ function a(func, b) {
   return func // a closure is a function passed in as arg and returned (exposed)
 }
 
-//! 💡 Practice using callbacks for iteration (forEach, map, filter, find)
+//! 💡 Practice using callbacks for iteration (forEach, map, filter, find, reduce)
 
 // ✅ Print out each book title in our inventory
-inventory.forEach(book => console.log(book.title))
+// inventory.forEach(book => console.log(book.title))
 
 // ✅ Create an array of strings from the inventory in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
+// const newArray = inventory.map(book => `${book.title} by ${book.author} is on sale for ${formatPrice(book.price)}`)
+const newArray = inventory.map(book => {
+  if (book.price > 25) {
+    return book.title
+  }
+})
+// console.log(newArray)
 
-// ✅ Find all the books with price over $25.00 
+// ✅ Find all the books with price over 25
+
+// const filteredBooks = inventory.filter(book => book.price > 25)
+const filteredBooks = inventory.filter(book => book.price > 25 ? book.title : null).map(book => book.title)
+// console.log(filteredBooks)
 //! 💡 When do I use forEach vs map?
+
+const findFirstBookWithPriceAbove25 = inventory.find(book => book.price > 2500)
+// console.log(findFirstBookWithPriceAbove25)
+
+const totalPriceOfInventoryBooks = inventory.reduce((total, currentBook) => {
+  return total + currentBook.price
+}, 0)
+
+console.log(totalPriceOfInventoryBooks)
