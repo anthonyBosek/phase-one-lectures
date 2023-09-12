@@ -1,3 +1,4 @@
+// "use strict"
 //Data 
 const inventory = [
   {
@@ -73,17 +74,27 @@ and returns the price formatted as a string. formatPrice(10) => '$10.00'
 
 // Start here!
 
+// console.log(formatPrice(10))
+function formatPrice(price) {
+  return `$${price.toFixed(2)}`
+}
 //! 💡 Arrow functions vs regular functions
 
 // ✅ create an arrow function version of the formatPrice function
+// 1. function becomes const
+// 2. add = after const name
+// 3. add arrow before func body
+const formatPrice2 = price => `$${price.toFixed(2)}` //! ARROW FUNC EXPRESSION
+const formatPrice3 = function(price){ return `$${price.toFixed(2)}`} //! FUNC EXPRESSION
 
 // ✅ create a blurb() function that accepts a book as an argument and logs a message in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
 
 //! 💡 Scope
-
+// scopey()
 function scopey() {
     //! Define four local/functional variables (available anywhere within the function FROM THIS LINE UNDER ⚠️)
+    console.log(c)
     var a = "first Value";
     let b = "first Value";
     const c = "first Value";
@@ -98,21 +109,40 @@ function scopey() {
     }
     
     // what will each statement log to the console?
-    console.log("a (var) is,", a);
-    console.log("b (let) is,", b);
-    console.log("c (const) is,", c);
-    console.log("d (evil) is,", d);
+    console.log("a (var) is,", a); // second
+    console.log("b (let) is,", b); // 50:50
+    console.log("c (const) is,", c); // mostly first, 2 error
+    console.log("d (evil) is,", d); // second 
 }
 
 // After Break
 
 // ✅ Create a function called `log` that takes a function and its argument as arguments
 // and logs a message explaining the name of the function, the argument passed and 
-// the return value 
+// the return value
 
-//! 💡 Practice using callbacks for iteration
+function sayName(name) {
+  return `Hello ${name}!`
+}
 
-// ✅ Print out each book name in our inventory
+function log(func, nameTwo) {
+  func(nameTwo)
+}
+
+log(formatPrice, 10)
+
+//! log is called Higher Order Function
+//! sayName is called callback
+
+function a(func, b) {
+  console.log(b)
+  return func // a closure is a function passed in as arg and returned (exposed)
+}
+
+//! 💡 Practice using callbacks for iteration (forEach, map, filter, find)
+
+// ✅ Print out each book title in our inventory
+inventory.forEach(book => console.log(book.title))
 
 // ✅ Create an array of strings from the inventory in the following format:
 // 'Eloquent JavaScript: A Modern Introduction to Programming by Marjin Haverbeke is on sale for $10.00'
