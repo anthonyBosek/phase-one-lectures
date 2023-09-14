@@ -55,6 +55,7 @@ function renderBook(book) {
     img.alt = book.title
     const button = document.createElement("button")
     button.innerText = "Delete"
+    button.addEventListener("click", e => e.target.parentElement.remove())
     li.append(h3, pAuthor, pPrice, img, button)
     // figure out where
     // target that place with querySelector/getElementById
@@ -70,9 +71,12 @@ function renderBookAsHTML(book) {
         <p>${book.author}</p>
         <p>${formatPrice(book.price)}</p>
         <img src=${book.imageUrl} alt=${book.title}/>
-        <button>Delete</button>
+        <button class="delete-btn">Delete</button>
     </li>
     `
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", e => e.target.parentElement.remove())
+    })
 }
 
 setHeader()
@@ -88,8 +92,35 @@ bookStore.inventory.forEach(bookObj => renderBookAsHTML(bookObj))
 
 // domNodeElement.addEventListener(theEventInStringformat, callbackFunctionThatDesidesWhatToDo)
 
+const newBookButton = document.querySelector('#toggleForm')
+// const newBookButtonFunc = () => document.querySelector('#toggleForm')
+const bookForm = document.querySelector('#book-form')
+const booksUl = document.querySelector('#book-list')
+
 //! Pattern 1: create the function somewhere to promote reusability
 //! then pass the function as a callback to addEventListener
+newBookButton.addEventListener('click', () => {
+    bookForm.classList.toggle('collapsed')
+})
 
 //! Pattern 2: create the callback function in-place, make it anonymous, and IF YOU WANT use an arrow function for readability.
+
+const handleSubmit = (e) => {
+    e.preventDefault()
+    // how do I extract all of the info from the form -> e.target.NAMEATTRIBUTE.value
+    // how do I build ONE object out of it
+    const newBook = {
+        title: e.target.title.value,
+        author: e.target.author.value,
+        price: e.target.price.valueAsNumber,
+        inventory: e.target.inventory.valueAsNumber,
+        imageUrl: e.target.imageUrl.value,
+    }
+    // what do I do with the object
+    renderBookAsHTML(newBook)
+    e.target.reset() // EMPTY THE FORM
+}
+
+// bookForm.addEventListener('submit', e => handleSubmit(e, somethingElse))
+bookForm.addEventListener('submit', handleSubmit)
 
