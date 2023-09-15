@@ -9,16 +9,16 @@
 // Wednesday's Code
 ////////////////////////////////////////////////////////////////
 
-console.log(bookStore);
+// console.log(bookStore);
 
 function formatPrice(price) {
     return '$' + Number.parseFloat(price).toFixed(2);
 }
-function setHeader() {
+function setHeader(bookStore) {
     const h1 = document.querySelector("#store-name")
     h1.innerText = bookStore.name
 }
-function changeFooter() {
+function changeFooter(bookStore) {
     const divName = document.getElementById("store")
     divName.innerText = bookStore.name
     const divAddress = document.getElementById("address")
@@ -79,9 +79,9 @@ function renderBookAsHTML(book) {
     })
 }
 
-setHeader()
-changeFooter()
-bookStore.inventory.forEach(bookObj => renderBookAsHTML(bookObj))
+// setHeader()
+// changeFooter()
+// bookStore.inventory.forEach(bookObj => renderBookAsHTML(bookObj))
 // bookStore.inventory.forEach(renderBook) this line leverages JS magic BUT IT'S IDENTICAL TO THE ONE ABOVE
 
 ////////////////////////////////////////////////////////////////
@@ -129,5 +129,33 @@ bookForm.addEventListener('submit', handleSubmit)
 //* FETCH LECTURE -> TODAY'S CODE
 //! Access Data From the json-server and leverage the existing functions to make sure we still see the books and store details
 
+const fetchFirstStoreData = () => {
+    fetch("http://localhost:3000/stores/1")
+    .then(resp => {
+        if (resp.ok) {
+            return resp.json()
+        } else {
+            throw('Something went wrong!')
+        }
+    })
+    .then(store => {
+        setHeader(store)
+        changeFooter(store)
+    })
+    .catch(err => alert(err))
+}
+fetchFirstStoreData()
 
+const fetchBookData = () => {
+    fetch("http://localhost:3000/books")
+    .then(resp => resp.json())
+    .then(books => {
+        // for (let book of books) {
+        //     renderBook(book)
+        // }
+        books.forEach(renderBook)
+    })
+    .catch(err => alert(err))
+}
+fetchBookData()
 ////////////////////////////////////////////////////////////////
