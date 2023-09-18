@@ -206,7 +206,7 @@ const handleSubmit = (e) => {
         imageUrl: e.target.imageUrl.value,
     }
     // what do I do with the object
-    renderBookAsHTML(newBook)
+    renderBook(newBook)
     e.target.reset() // EMPTY THE FORM
 }
 
