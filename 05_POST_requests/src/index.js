@@ -1,6 +1,9 @@
 //////////////////////////////////////////////////////////
 // Fetch Data & Call render functions to populate the DOM
 //////////////////////////////////////////////////////////
+const BOOKSURL = "http://localhost:3000/books"
+const STORESURL = "http://localhost:3000/stores"
+
 getJSON('http://localhost:3000/stores')
   .then((stores) => {
     // this populates a select tag with options so we can switch between stores on our web page
@@ -67,6 +70,7 @@ function renderBook(book) {
     
   const li = document.createElement('li');
   li.className = 'list-li';
+  li.setAttribute("data-id", book.id)
   
   const h3 = document.createElement('h3');
   h3.textContent = book.title;
@@ -194,20 +198,63 @@ window.addEventListener('keydown', (e) => {
 //   imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg'
 // }
 // we can use a book as an argument for renderBook!  This will add the book's info to the webpage.
+const validateFormData = (valuesArray) => {
+  return valuesArray.every(el => el.trim() !== "")
+}
+
 const handleSubmit = (e) => {
     e.preventDefault()
     // how do I extract all of the info from the form -> e.target.NAMEATTRIBUTE.value
     // how do I build ONE object out of it
-    const newBook = {
-        title: e.target.title.value,
-        author: e.target.author.value,
-        price: e.target.price.valueAsNumber,
-        inventory: e.target.inventory.valueAsNumber,
-        imageUrl: e.target.imageUrl.value,
+    if (validateFormData([e.target.title.value, e.target.author.value, e.target.price.value, e.target.inventory.value, e.target.imageUrl.value])) {
+      const newBook = {
+          title: e.target.title.value,
+          reviews: [],
+          author: e.target.author.value,
+          price: e.target.price.valueAsNumber,
+          inventory: parseInt(e.target.inventory.value),
+          imageUrl: e.target.imageUrl.value
+      }
+      //! THIS IS WHERE PERSISTANCE STARTS - OPTIMISTICALLY
+
+      renderBook(newBook) //! Put new book in UI
+      //! Talk about the creation with the json-server
+      fetch(BOOKSURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newBook)
+      })
+      .then(response => {
+        if (!response.ok) { //! if status code is not 200-299
+          //! Pinpoint which el has to be removed
+          //! Target it
+          const elToRemove = document.querySelector("ul li[data-id='null']")
+          //! Remove it
+          elToRemove.remove()
+        }
+      })
+      .catch(err => console.log(err))
+      //! THIS IS WHERE PERSISTANCE STARTS - PESSIMISTICALLY
+      // fetch(BOOKSURL, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify(newBook)
+      // })
+      // .then(response => response.json())
+      // .then(newBookObject => renderBook(newBookObject))
+      // .catch(err => console.log(err))
+      e.target.reset() // EMPTY THE FORM
+    } else {
+      alert("Please fill out all form values!!!!")
     }
+
+
     // what do I do with the object
-    renderBook(newBook)
-    e.target.reset() // EMPTY THE FORM
+    
 }
 
 // bookForm.addEventListener('submit', e => handleSubmit(e, somethingElse))
@@ -216,7 +263,7 @@ bookForm.addEventListener('submit', handleSubmit)
 // 2. Hook up the new Store form so it that it works to add a new store to our database and also to the DOM (as an option within the select tag)
 
 // we're filling in the storeForm with some data
-// for a new store programatically so we don't 
+// for a new store programmatically so we don't 
 // have to fill in the form every time we test
 // the functionality
 fillIn(storeForm, {
