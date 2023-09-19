@@ -95,14 +95,47 @@ function renderBook(book) {
   img.src = book.imageUrl;
   img.alt = `${book.title} cover`;
 
+  const editBtn = document.createElement('button');
+  editBtn.textContent = 'Edit';
+
+  editBtn.addEventListener('click', (e) => {
+    // debugger
+    //! target the modal el
+    const modal = document.querySelector("#myModal")
+    //! Add a class that through CSS will apply style for you
+    //! To display the modal
+    modal.classList.add("displayBlock")
+    //! Target the edit form
+    const editForm = document.querySelector("#edit-book-form")
+    //! Fill in the modal
+    //fillIn(editForm, book) //! Risk to access stale data
+    getJSON(`http://localhost:3000/books/${book.id}`)
+    .then((book) => {
+      fillIn(editForm, book)
+    })
+    .catch(err => {
+      console.error(err);
+    // renderError('Make sure to start json-server!') // I'm skipping this so we only see this error message once if JSON-server is actually not running
+    });
+
+    //! Add the id of the book to the form as data-book-id
+    editForm.setAttribute("data-book-id", book.id)
+  })
+
   const btn = document.createElement('button');
   btn.textContent = 'Delete';
 
   btn.addEventListener('click', (e) => {
-    li.remove();
+    // li.remove();
+    fetch(`http://localhost:3000/books/${book.id || li.dataset.id}`, {method: "DELETE"})
+    .then(response => {
+      if (response.ok) { //! or check if the status code is 200 (json-server) or 204 (most servers)
+        li.remove()
+      }
+    })
   })
 
-  li.append(h3, pAuthor, pPrice, pStock, img, btn);
+  li.append(h3, pAuthor, pPrice, pStock, img, editBtn, btn);
   document.querySelector('#book-list').append(li);
 }
 
@@ -134,7 +167,9 @@ function fillIn(form, data) {
     // in an object at variable keys, i.e. when
     // we don't know the key name up front.
     // In this case, it comes from an argument.
-    form[field].value = data[field]
+    if (form[field]) {
+      form[field].value = data[field]
+    }
   }
 }
 
@@ -187,17 +222,6 @@ window.addEventListener('keydown', (e) => {
 // Data persisting events
 ////////////////////////////////////////////////////////////////
 
-// this is what a book looks like in db.json
-// {
-//   id:1,
-//   title: 'Eloquent JavaScript: A Modern Introduction to Programming',
-//   author: 'Marjin Haverbeke',
-//   price: 10.00,
-//   reviews: [{userID: 1, content:'Good book, but not great for new coders'}],
-//   inventory: 10,
-//   imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg'
-// }
-// we can use a book as an argument for renderBook!  This will add the book's info to the webpage.
 const validateFormData = (valuesArray) => {
   return valuesArray.every(el => el.trim() !== "")
 }
@@ -246,7 +270,7 @@ const handleSubmit = (e) => {
 
       //! THIS IS WHERE PERSISTANCE STARTS - PESSIMISTICALLY
       // pessimistic rendering here:
-      // postJSON("http://localhost:3000/books", book)
+      // postJSON("http://localhost:3000/books", newBook)
       // .then(book => {
       //   renderBook(book)
       //   e.target.reset();
@@ -280,4 +304,60 @@ fillIn(storeForm, {
   hours: "Monday - Friday 9am - 6pm"
 })
 
+const editForm = document.querySelector("#edit-book-form")
 
+const patchExistingBook = e => {
+  e.preventDefault()
+  if (validateFormData([e.target.title.value, e.target.author.value, e.target.price.value, e.target.inventory.value, e.target.imageUrl.value])) {
+    const updatedBook = {
+        title: e.target.title.value,
+        author: e.target.author.value,
+        price: e.target.price.valueAsNumber,
+        inventory: parseInt(e.target.inventory.value),
+        imageUrl: e.target.imageUrl.value
+    }
+    const idOfBookToPatch = e.target.dataset.bookId
+
+    fetch(`http://localhost:3000/books/${idOfBookToPatch}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedBook)
+    })
+    .then(response => {
+      if (response.ok) {
+        response.json()
+        .then(newlyUpdatedBook => {
+          const elToUpdate = document.querySelector(`ul li[data-id='${newlyUpdatedBook.id}']`)
+          elToUpdate.querySelector("h3").textContent = newlyUpdatedBook.title
+          elToUpdate.querySelector("p:nth-child(2)").textContent = newlyUpdatedBook.author
+          elToUpdate.querySelector("p:nth-child(3)").textContent = formatPrice(newlyUpdatedBook.price)
+          elToUpdate.querySelector("p:nth-child(4)").textContent = newlyUpdatedBook.inventory ? "In stock" : "Out of stock"
+          elToUpdate.querySelector("img").src = newlyUpdatedBook.imageUrl
+          modal.classList.remove("displayBlock")
+        })
+      } else {
+        alert("Update went wrong! Check the form and make sure there are no empty values!")
+      }
+    })
+
+  }
+}
+
+//! Patch Functionality Here
+const modal = document.querySelector("#myModal")
+
+editForm.addEventListener("submit", patchExistingBook)
+// When the user clicks on <span> (x), close the modal
+const span = document.getElementsByClassName("close")[0];
+span.addEventListener("click", function() {
+  modal.classList.remove("displayBlock")
+})
+
+// When the user clicks anywhere outside of the modal, close it
+window.addEventListener("click", function(event) {
+  if (event.target == modal) {
+    modal.classList.remove("displayBlock")
+  }
+})
