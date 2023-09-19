@@ -218,6 +218,7 @@ const handleSubmit = (e) => {
       //! THIS IS WHERE PERSISTANCE STARTS - OPTIMISTICALLY
 
       renderBook(newBook) //! Put new book in UI
+      const elToRemove = document.querySelector("ul li[data-id='undefined']")
       //! Talk about the creation with the json-server
       fetch(BOOKSURL, {
         method: "POST",
@@ -228,14 +229,21 @@ const handleSubmit = (e) => {
       })
       .then(response => {
         if (!response.ok) { //! if status code is not 200-299
-          //! Pinpoint which el has to be removed
-          //! Target it
-          const elToRemove = document.querySelector("ul li[data-id='null']")
           //! Remove it
           elToRemove.remove()
+        } else {
+          response.json().then(newBookWithID => {
+            elToRemove.dataset.id = newBookWithID.id
+          })
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+          //! Remove it
+          elToRemove.remove()
+          console.log(err)
+      })
+
+
       //! THIS IS WHERE PERSISTANCE STARTS - PESSIMISTICALLY
       // fetch(BOOKSURL, {
       //   method: "POST",

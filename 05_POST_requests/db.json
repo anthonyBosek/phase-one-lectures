@@ -135,59 +135,6 @@
       ],
       "inventory": 20,
       "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/41oYsXjLvZL._SY344_BO1,204,203,200_.jpg"
-    },
-    {
-      "title": "Test 2",
-      "author": "Brian",
-      "price": 32,
-      "inventory": null,
-      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "id": 8
-    },
-    {
-      "title": "bwcnqk",
-      "reviews": [],
-      "author": "viuyw",
-      "price": 11,
-      "inventory": null,
-      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "id": 9
-    },
-    {
-      "title": "",
-      "reviews": [],
-      "author": "",
-      "price": null,
-      "inventory": null,
-      "imageUrl": "",
-      "id": 10
-    },
-    {
-      "title": "New Book",
-      "reviews": [],
-      "author": "Matteo",
-      "price": 123,
-      "inventory": 123,
-      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "id": 11
-    },
-    {
-      "title": "                             ",
-      "reviews": [],
-      "author": "Matteo",
-      "price": 123,
-      "inventory": 123,
-      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "id": 12
-    },
-    {
-      "title": " <script>alert(‘XSS’)</script>",
-      "reviews": [],
-      "author": "Matteo",
-      "price": 32,
-      "inventory": 1234,
-      "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "id": 13
     }
   ]
 }
