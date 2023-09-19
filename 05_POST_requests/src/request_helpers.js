@@ -1,12 +1,11 @@
 function getJSON(url) {
-  return fetch(url)
-  .then(response => {
+  return fetch(url).then((response) => {
     if (response.ok) {
-      return response.json()
+      return response.json();
     } else {
-      throw (response.statusText)
+      throw response.statusText;
     }
-  })
+  });
 }
 
 function postJSON(url, data) {
