@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="key.js"></script>
+    <script defer src="index.js"></script>
+    <title>TV Show Aggregator</title>
+</head>
+<body>
+    <div class="search-form-container">
+        <form class="search-form">
+            <div class="form-control">
+                <label for="show">Search By Show Name</label>
+                <input type="text" name="show" id="show">
+            </div>
+            <div class="form-control">
+                <input type="submit" value="Search">
+            </div>
+        </form>
+    </div>
+    <div class="show-details collapsed">
+        <h3 id="title"></h3>
+        <img id="image" src="" alt="Show Image">
+        <span id="details"></span>
+        <p id="description"></p>
+    </div>
+    <div class="shows-list"></div>
+</body>
+</html>

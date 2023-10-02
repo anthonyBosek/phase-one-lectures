@@ -1,0 +1,17 @@
+.search-form {
+    width: 60%;
+    margin-left: 20%;
+    display: flex;
+}
+
+form.search-form div:nth-child(1) {
+    width: 80%;
+}
+
+form.search-form div:nth-child(1) input {
+    width: 70%;
+}
+
+.collapsed {
+    display: none;
+}
